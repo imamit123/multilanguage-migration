@@ -1,0 +1,98 @@
+id: d7_blog_listing
+label: d7_blog_listing
+migration_tags:
+  - Drupal 7
+deriver: Drupal\node\Plugin\migrate\D7NodeDeriver
+migration_group: testgroup
+source:
+  plugin: d7_node
+  node_type: blog_listing
+process:
+  # If you are using this file to build a custom migration consider removing
+  # the nid and vid fields to allow incremental migrations.
+  nid: nid
+  vid: vid
+  type:
+    plugin: default_value
+    default_value: blog_listing
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: "und"
+  title: title
+  body:
+   plugin: iterator
+   source: body
+   process:
+    value: value
+    format:
+    plugin: default_value
+    default_value: full_html
+  field_long_description:
+   plugin: iterator
+   source: field_long_description
+   process:
+    value: value
+    format:
+    plugin: default_value
+    default_value: full_html
+  field_blog_tags:
+    plugin: iterator
+    source: field_blog_tags
+    process:
+     target_id: tid
+  field_technologies:
+    plugin: iterator
+    source: field_technologies
+    process:
+     target_id: tid
+  field_author:
+    plugin: iterator
+    source: field_author
+    process:
+     target_id: target_id
+  field_teaser_image:
+    plugin: iterator
+    source: field_teaser_image
+    process:
+     target_id: fid
+     alt: alt
+     title: title
+     width: width
+     height: height
+  field_blog_media:
+    plugin: iterator
+    source: field_blog_media
+    process:
+     target_id: fid
+     alt: alt
+     title: title
+     width: width
+     height: height
+  field_date:
+    plugin: sub_process
+    source: field_date
+    process:
+     value:
+      plugin: format_date
+      from_format: 'Y-m-d H:i:s'
+      to_format: 'Y-m-d'
+      source: value 
+  uid: node_uid
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  revision_uid: revision_uid
+  revision_log: log
+  revision_timestamp: timestamp
+  moderation_state: moderation_state
+  process:
+  'path/pathauto': 
+    plugin: default_value
+    default_value: 0 # Disable pathauto.
+  'path/alias': alias
+destination:
+  plugin: entity:node
+migration_dependencies: {}

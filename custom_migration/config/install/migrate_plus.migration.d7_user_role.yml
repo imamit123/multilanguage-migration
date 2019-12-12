@@ -1,0 +1,20 @@
+id: d7_user_role
+label: User roles
+migration_group: testgroup
+migration_tags:
+  - Drupal 7
+source:
+  plugin: d7_user_role
+process:
+  id:
+    -
+      plugin: machine_name
+      source: name
+    -
+      plugin: user_update_8002
+  label: name
+destination:
+  plugin: entity:user_role
+migration_dependencies:
+  optional:
+    - d7_filter_format
